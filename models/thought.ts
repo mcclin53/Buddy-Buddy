@@ -1,4 +1,4 @@
-import { Schema, Document, model, ObjectId } from 'mongoose';
+import { Schema, Document, model, ObjectId, Types } from 'mongoose';
 
 interface IReaction extends Document {
     reactionID: ObjectId;
@@ -58,3 +58,5 @@ thoughtSchema.set('toJSON', { getters: true });
 
 const Reaction = model<IReaction>('Reaction', reactionSchema);
 const Thought = model<IThought>('Thought', thoughtSchema);
+
+export default { Reaction, Thought }
