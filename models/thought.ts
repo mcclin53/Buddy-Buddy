@@ -59,4 +59,4 @@ thoughtSchema.set('toJSON', { getters: true });
 const Reaction = model<IReaction>('Reaction', reactionSchema);
 const Thought = model<IThought>('Thought', thoughtSchema);
 
-export default { Reaction, Thought }
+export { Reaction, Thought }
