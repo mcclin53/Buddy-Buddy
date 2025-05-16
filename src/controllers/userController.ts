@@ -36,6 +36,23 @@ export const createUser = async (req: Request, res: Response) => {
   }
 }
 
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      { _id: req.params.userId },
+      { $set: req.body },
+      { new: true }
+    );
+    if (!user) {
+      return res.status(404).json({ message: 'No user with that ID' });
+      } else {
+        return res.json(user);
+        }
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+}
+
 export const deleteUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({ _id: req.params.userId })
