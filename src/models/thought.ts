@@ -18,7 +18,6 @@ interface IThought extends Document {
 const reactionSchema = new Schema(
     {
         _id: { type: Schema.Types.ObjectId, default: () => new Types.ObjectId(), },
-        reactionID: { type: Schema.Types.ObjectId, default: () => new Types.ObjectId() },
         reactionBody: { type: String, required: true, maxlength: 280},
         username: { type: String, required: true },
         createdAt: {
@@ -44,18 +43,17 @@ const thoughtSchema = new Schema(
             get: (timestamp: string | number | Date) => new Date(timestamp).toLocaleString(),
             },
         username: {type: String, required: true},
-        reactions: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Reaction'
-            }
-        ],
+        reactions: [reactionSchema],
     },
     {
         toObject: { getters: true },
         toJSON: { getters: true },
     }
 );
+
+thoughtSchema.virtual('reactionCount').get(function() {
+    return this.reactions.length;
+})
 
 const Reaction = model<IReaction>('Reaction', reactionSchema);
 const Thought = model<IThought>('Thought', thoughtSchema);

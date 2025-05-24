@@ -1,4 +1,12 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model, Types, Document, ObjectId } from 'mongoose';
+
+interface IUser extends Document {
+    _id: ObjectId,
+    username: String,
+    email: String,
+    thoughts: Schema.Types.ObjectId[],
+    friends: Schema.Types.ObjectId[]
+}
 
 const userSchema = new Schema({
     _id: {
@@ -34,11 +42,13 @@ const userSchema = new Schema({
         getters: true,
 },
     id: false,
-})
-    userSchema.virtual('friendCount').get(function () {
+});
+
+
+userSchema.virtual('friendCount').get(function () {
     return this.friends?.length;
 });
 
-    const User = model('User', userSchema);
+const User = model<IUser>('User', userSchema);
     
-    export default User;
+export default User;

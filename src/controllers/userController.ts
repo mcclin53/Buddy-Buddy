@@ -13,7 +13,9 @@ export const getUsers = async (_req: Request, res: Response) => {
 export const getSingleUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({ _id: req.params.userId })
-    .select('-__v');
+    .select('-__v')
+    .populate('thoughts')
+  //  .populate('friends');
 
     if (!user) {
     return res.status(404).json({ message: 'No user with that ID' });
@@ -59,6 +61,7 @@ export const deleteUser = async (req: Request, res: Response) => {
       .select('__v')
       .populate('thoughts');
 
+      console.log("new User: ", user);
     if (!user) {
       return res.status(404).json({ message: 'No user with that ID' });
     }
